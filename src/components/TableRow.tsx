@@ -6,7 +6,7 @@ export default function TableRow() {
   return (
     <>
       <tr>
-        <td className="py-2">
+        <td className="py-8 px-3">
           <div className="flex items-center gap-1">
             <img
               src="https://picsum.photos/100/120"

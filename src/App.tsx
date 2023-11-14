@@ -1,3 +1,4 @@
+import { useState } from "react"
 import Summary from "./components/Summary"
 import TableRow from "./components/TableRow"
 import PageHeader from "./components/pageHeader"
@@ -5,6 +6,8 @@ import PageTitle from "./components/pageTitle"
 import "./global.css"
 
 function App() {
+  const [cart, setCart] = useState([1, 2, 3])
+
   return (
     <>
       <PageHeader />
@@ -23,7 +26,18 @@ function App() {
                 </tr>
               </thead>
               <tbody>
-                <TableRow />
+                {cart.map(() => (
+                  <TableRow />
+                ))}
+                {cart.length === 0 && (
+                  <tr>
+                    <td className="py-14">
+                      <b className="flex justify-center">
+                        Carrinho de compras vazio.
+                      </b>
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </section>
