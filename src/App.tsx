@@ -6,14 +6,23 @@ import PageTitle from "./components/pageTitle"
 import "./global.css"
 import { api } from "./provider/provider"
 
+interface Product {
+  _id: string
+  name: string
+  category: string
+  price: number
+  quantity: number
+}
+
 function ramdomNumber(min: number, max: number) {
   return Math.floor(Math.random() * (max - min) + min)
 }
 
 function App() {
-  const [cart, setCart] = useState([])
+  const [cart, setCart] = useState<Product[]>([])
 
-  const productObject = {
+  const productObject: Product = {
+    _id: "",
     name: "produto",
     category: "categoria",
     price: ramdomNumber(90, 1200),
@@ -30,6 +39,8 @@ function App() {
 
   const handleAddItem = () => {
     //adicionar
+    api.post("/cart", productObject).then((response) => console.log(response))
+    fetchData()
   }
 
   const handleRemoveItem = () => {
@@ -63,8 +74,8 @@ function App() {
                 </tr>
               </thead>
               <tbody>
-                {cart.map(() => (
-                  <TableRow />
+                {cart.map((item) => (
+                  <TableRow key={item._id} data={item} />
                 ))}
                 {cart.length === 0 && (
                   <tr>
