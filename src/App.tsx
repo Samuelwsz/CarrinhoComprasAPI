@@ -6,8 +6,8 @@ import PageTitle from "./components/pageTitle"
 import "./global.css"
 import { api } from "./provider/provider"
 
-interface Product {
-  _id: string
+export interface Product {
+  _id?: string
   name: string
   category: string
   price: number
@@ -22,7 +22,6 @@ function App() {
   const [cart, setCart] = useState<Product[]>([])
 
   const productObject: Product = {
-    _id: "",
     name: "produto",
     category: "categoria",
     price: ramdomNumber(90, 1200),
@@ -43,13 +42,25 @@ function App() {
     fetchData()
   }
 
-  const handleRemoveItem = () => {
+  const handleRemoveItem = (item: Product) => {
     //remover
+    api.delete(`/cart/${item._id}`).then((response) => {
+      console.log(response)
+      fetchData()
+    })
+
+    console.log(item)
   }
 
-  const handleUpdateItem = () => {
-    //altera
+  const handleUpdateItem = (item: Product, action: string) => {
+    //alterar quantidade
+    console.log({ item })
+    if (action === "increase") {
+    }
+    if (action === "decrease") {
+    }
   }
+
   return (
     <>
       <PageHeader />
@@ -75,7 +86,12 @@ function App() {
               </thead>
               <tbody>
                 {cart.map((item) => (
-                  <TableRow key={item._id} data={item} />
+                  <TableRow
+                    key={item._id}
+                    data={item}
+                    handleRemoveItem={handleRemoveItem}
+                    handleUpdateItem={handleUpdateItem}
+                  />
                 ))}
                 {cart.length === 0 && (
                   <tr>

@@ -1,17 +1,19 @@
 import { MinusIcon } from "@heroicons/react/20/solid"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { PlusIcon } from "@heroicons/react/24/solid"
+import { Product } from "../App"
 
 interface TableRowProps {
-  data: {
-    name: string
-    category: string
-    price: number
-    quantity: number
-  }
+  data: Product
+  handleRemoveItem?: (item: Product) => void
+  handleUpdateItem?: (item: Product, action: string) => void
 }
 
-export default function TableRow({ data }: TableRowProps) {
+export default function TableRow({
+  data,
+  handleRemoveItem,
+  handleUpdateItem,
+}: TableRowProps) {
   return (
     <>
       <tr>
@@ -31,18 +33,33 @@ export default function TableRow({ data }: TableRowProps) {
         <td className="py-2">R$ {data.price}</td>
         <td className="py-2">
           <div className="flex items-center justify-center">
-            <button className="p-2">
-              <PlusIcon className="w-4 h-4" />
+            <button
+              className="p-2"
+              onClick={() => {
+                handleUpdateItem?.(data, "decrease")
+              }}
+            >
+              <MinusIcon className="w-4 h-4" />
             </button>
             <span className="mx-2">{data.quantity}</span>
-            <button className="p-2">
-              <MinusIcon className="w-4 h-4" />
+            <button
+              className="p-2"
+              onClick={() => {
+                handleUpdateItem?.(data, "increase")
+              }}
+            >
+              <PlusIcon className="w-4 h-4" />
             </button>
           </div>
         </td>
         <td className="py-2">R$ {data.price * data.quantity}</td>
         <td className="py-2">
-          <button className="p-2">
+          <button
+            className="p-2"
+            onClick={() => {
+              handleRemoveItem?.(data)
+            }}
+          >
             <XMarkIcon className="w-4 h-4" />
           </button>
         </td>
