@@ -55,10 +55,23 @@ function App() {
   const handleUpdateItem = (item: Product, action: string) => {
     //alterar quantidade
     console.log({ item })
-    if (action === "increase") {
-    }
+    let newQuantity = item.quantity
     if (action === "decrease") {
+      if (newQuantity === 1) {
+        return
+      }
+      newQuantity -= 1
     }
+    if (action === "increase") {
+      newQuantity += 1
+    }
+
+    const newData = { ...item, quantity: newQuantity }
+    delete newData._id
+    api.put(`/cart/${item._id}`, newData).then((response) => {
+      console.log(response)
+      fetchData()
+    })
   }
 
   return (
