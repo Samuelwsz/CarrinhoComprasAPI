@@ -74,6 +74,16 @@ function App() {
     })
   }
 
+  const getTotal = () => {
+    let sum = 0
+
+    for (let item of cart) {
+      sum += item.price * item.quantity
+    }
+    return sum
+  }
+  const cartTotal = getTotal()
+
   return (
     <>
       <PageHeader />
@@ -119,7 +129,7 @@ function App() {
             </table>
           </section>
           <aside className="w-full md:w-1/4 mt-4 md:mt-0">
-            <Summary />
+            <Summary total={cartTotal} />
           </aside>
         </div>
       </main>
